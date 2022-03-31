@@ -1,5 +1,8 @@
 let taille = 0;
-function star(firstStar) {
+let bot = 0;
+const input = document.querySelector("input");
+
+function TopStar(firstStar) {
   let i, j, k;
   for (i = 1; i <= firstStar; i++) {
     for (j = 3 * firstStar; j >= 1; j--) {
@@ -12,20 +15,7 @@ function star(firstStar) {
     }
     document.write("<br>");
   }
-
-  // let string = "";
-  // for (let i = 0;i<3*firstStar-1;i++ ){
-  //     string +="&nbsp;";
-  // }
-  // string +="*";
-  // // document.write(string)
-  // let t = string
-  // // for (let j=0;j<firstStar*2-1;j++){
-  //     t= t.slice(0, -1)
-  // // }
-  // document.write(t)
 }
-star(5);
 
 function horizontal(stars) {
   let i, j, k;
@@ -36,6 +26,7 @@ function horizontal(stars) {
   for (i = 2 * stars + variable; i >= 1; i--) {
     document.write("*");
     taille++;
+    bot++;
   }
   let variable2 = stars * 2 - 1;
   for (j = 0; j < (variable2 - 2 > 0 ? variable2 - 2 : variable2); j++) {
@@ -48,16 +39,49 @@ function horizontal(stars) {
   }
   document.write("<br>");
 }
-horizontal(5);
 
 function milieu(etoile) {
   let offset = 1;
   for (let i = 0; i < etoile * 2 - 1; i++) {
-    if (i < offset) {
-      document.write("&nbsp;&nbsp;");
-    }else if(i==offset){
-        document.write("*")
+    for (let k = 0; k < taille; k++) {
+      if (k < offset || (k > offset && k < taille - offset - 1)) {
+        document.write("&nbsp;&nbsp;");
+      } else if (k == offset || k == taille - offset) {
+        document.write("*");
+      }
     }
+    if (i < etoile - 1) {
+      offset++;
+    } else {
+      offset--;
+    }
+    document.write("<br>");
   }
 }
-milieu(5);
+
+function botstar(firstStar) {
+  let i, j, k;
+  for (i = firstStar; i >= 1; i--) {
+    for (j = 3 * firstStar; j >= 1; j--) {
+      if (i == j) document.write("*");
+      else document.write("&nbsp;&nbsp;");
+    }
+    for (k = 2; k <= firstStar; k++) {
+      if (i == k) document.write("*");
+      else document.write("&nbsp;&nbsp;");
+    }
+    document.write("<br>");
+  }
+}
+
+function star(value) {
+  TopStar(value);
+  horizontal(value);
+  milieu(value);
+  horizontal(value);
+  botstar(value);
+}
+
+input.addEventListener("change", () => {
+  star(input.value);
+});
